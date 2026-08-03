@@ -33,8 +33,26 @@ from typing import List
 
 
 class Solution:
-    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int: ...
+    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
+        sum_ = k * threshold
+        ret = 0
+        curSum = 0
+        for i in range(k):
+            curSum += arr[i]
+        if curSum >= sum_:
+            ret += 1
+        for i in range(k, len(arr)):
+            curSum += arr[i]
+            curSum -= arr[i - k]
+            if curSum >= sum_:
+                ret += 1
+        return ret
 
 
 if __name__ == "__main__":
-    ...
+    arr = [11,13,17,23,29,31,7,5,2,3]
+    k = 3
+    threshold = 5
+    solution = Solution()
+    ret = solution.numOfSubarrays(arr, k, threshold)
+    print(ret)
