@@ -39,6 +39,7 @@ Constraints:
 1 <= nums[i] <= 109
 """
 
+from collections import defaultdict
 from typing import List
 
 
@@ -47,30 +48,38 @@ class Solution:
         n = len(nums)
         maxSum = 0
         curSum = 0
-        curSet = set()
+        curFreq = defaultdict(int)
+        curMeet = 0
         for i in range(k):
-            curSet.add(nums[i])
-            curSum += nums[i]
-        print(curSet)
-        # no set, but freq
-        if len(curSet) >= m:
+            num = nums[i]
+            curFreq[num] += 1
+            curSum += num
+        for v in curFreq.values():
+            if v > 0:
+                curMeet += 1
+        if curMeet >= m:
             maxSum = curSum
+
         for i in range(k, n):
-            curSet.discard(nums[i - k])
-            curSum -= nums[i - k]
-            curSet.add(nums[i])
-            curSum += nums[i]
-            print(i - k, i)
-            print(curSet)
-            if len(curSet) >= m:
+            num = nums[i]
+            _num = nums[i - k]
+            if curFreq[num] == 0:
+                curMeet += 1
+            curFreq[num] += 1
+            curFreq[_num] -= 1
+            if curFreq[_num] == 0:
+                curMeet -= 1
+            curSum += num
+            curSum -= _num
+            if curMeet >= m:
                 maxSum = max(maxSum, curSum)
         return maxSum
 
 
 if __name__ == "__main__":
-    nums = [1, 1, 1, 3]
-    m = 2
-    k = 2
+    nums = [5, 9, 9, 2, 4, 5, 4]
+    m = 1
+    k = 3
     solution = Solution()
     ret = solution.maxSum(nums, m, k)
     print(ret)
