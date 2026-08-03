@@ -54,7 +54,23 @@ from typing import List
 
 
 class Solution:
-    def getAverages(self, nums: List[int], k: int) -> List[int]: ...
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        ret = [-1] * n
+        subLength = 2 * k + 1
+        if subLength > n:
+            return ret
+        curSum = 0
+        for i in range(subLength):
+            curSum += nums[i]
+        # assign
+        ret[k] = curSum // subLength
+        for i in range(subLength, n):
+            curSum += nums[i]
+            curSum -= nums[i - subLength]
+            # assign
+            ret[i - k] = curSum // subLength
+        return ret
 
 
 if __name__ == "__main__":
