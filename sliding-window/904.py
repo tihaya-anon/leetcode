@@ -40,13 +40,44 @@ Constraints:
 0 <= fruits[i] < fruits.length
 """
 
+from collections import defaultdict
 from typing import List
 
 
 class Solution:
     def totalFruit(self, fruits: List[int]) -> int:
-        pass
+        n = len(fruits)
+        kinds = defaultdict(int)
+        L = 0
+        maxL = 0
+        kindsNonZero = 0
+        for R in range(n):
+            frR = fruits[R]
+            if kinds[frR] == 0:
+                kindsNonZero += 1
+            kinds[frR] += 1
+            while kindsNonZero > 2:
+                frL = fruits[L]
+                kinds[frL] -= 1
+                if kinds[frL] == 0:
+                    kindsNonZero -= 1
+                L += 1
+            maxL = max(maxL, R - L + 1)
+        return maxL
+
+
+def cases(p):
+    sol = Solution()
+    ret = sol.totalFruit(**p)
+    print(p, ret)
 
 
 if __name__ == "__main__":
-    ...
+    case = dict(fruits=[1, 2, 1])
+    cases(case)
+    case = dict(fruits=[0, 1, 2, 2])
+    cases(case)
+    case = dict(fruits=[1, 2, 3, 2, 2])
+    cases(case)
+    case = dict(fruits=[3, 3, 3, 1, 2, 1, 1, 2, 3, 3, 4])
+    cases(case)
