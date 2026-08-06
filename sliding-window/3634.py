@@ -9,7 +9,7 @@ You are given an integer array nums and an integer k.
 
 An array is considered balanced if the value of its maximum element is at most k times the minimum element.
 
-You may remove any number of elements from nums​​​​​​​ without making it empty.
+You may remove any number of elements from nums without making it empty.
 
 Return the minimum number of elements to remove so that the remaining array is balanced.
 
@@ -55,16 +55,28 @@ Constraints:
 1 <= k <= 105
 """
 
+from math import inf
 from typing import List
 
 
 class Solution:
     def minRemoval(self, nums: List[int], k: int) -> int:
-        ...
+        n = len(nums)
+        nums.sort()
+        L = 0
+        maxL = 1
+        for R in range(1, n):
+            # print(nums[L], nums[L] * k, nums[R])
+            while nums[L] * k < nums[R]:
+                L += 1
+            # print(L, R, nums[L : R + 1])
+            maxL = max(maxL, R - L + 1)
+        return n - maxL
+
 
 if __name__ == "__main__":
-    nums = [2,1,5]
+    nums = [1, 34, 23]
     k = 2
     sol = Solution()
     ret = sol.minRemoval(nums, k)
-    print(ret)
+    print(ret)  # 1
