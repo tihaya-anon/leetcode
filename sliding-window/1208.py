@@ -33,8 +33,23 @@ Explanation: You cannot make any change, so the maximum length is 1.
 
 
 class Solution:
-    def equalSubstring(self, s: str, t: str, maxCost: int) -> int: ...
+    def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
+        n = len(s)
+        L = 0
+        maxL = 0
+        for R in range(n):
+            maxCost -= abs(ord(s[R]) - ord(t[R]))
+            while maxCost < 0:
+                maxCost += abs(ord(s[L]) - ord(t[L]))
+                L += 1
+                if L == n:
+                    break
+            maxL = max(maxL, R - L + 1)
+        return maxL
 
 
 if __name__ == "__main__":
-    ...
+    params = dict(s="abcd", t="bcdf", maxCost=3)
+    sol = Solution()
+    ret = sol.equalSubstring(**params)
+    print(ret)
