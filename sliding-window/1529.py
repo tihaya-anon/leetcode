@@ -48,7 +48,7 @@ target[i] is either '0' or '1'.
 
 class Solution:
     def minFlips(self, target: str) -> int:
-        target = "0"+target
+        target = "0" + target
         n = len(target)
         shift = 0
         for i in range(n - 1):
