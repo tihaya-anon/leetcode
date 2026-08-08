@@ -35,7 +35,19 @@ from typing import List
 
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-        pass
+        n = len(nums)
+        max_len = cur_zeros = 0
+        L = 0
+        for R in range(n):
+            if nums[R] == 0:
+                cur_zeros += 1
+            while L <= R and cur_zeros > k:
+                if nums[L] == 0:
+                    cur_zeros -= 1
+                L += 1
+            # print(cur_zeros, nums[L : R + 1])
+            max_len = max(max_len, R - L + 1)
+        return max_len
 
 
 if __name__ == "__main__":
