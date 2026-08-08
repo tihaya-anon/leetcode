@@ -47,15 +47,13 @@ class Solution:
                 sl = md
             else:
                 sr = md
-        # print(sl, sr, nums[sl], nums[sr])
         el, er = -1, n
         while er - el > 1:
             md = el + er >> 1
-            if nums[md] > target:
-                er = md
-            else:
+            if nums[md] <= target:
                 el = md
-        # print(el, er, nums[el], nums[er])
+            else:
+                er = md
         if sr > el:
             return [-1, -1]
         return [sr, el]
