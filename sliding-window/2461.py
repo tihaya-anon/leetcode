@@ -46,13 +46,47 @@ from typing import List
 
 class Solution:
     def maximumSubarraySum(self, nums: List[int], k: int) -> int:
-        return 0
+        from collections import defaultdict
+
+        freq = defaultdict(int)
+        n = len(nums)
+        cur_sum = max_sum = 0
+        for num in nums[:k]:
+            freq[num] += 1
+            cur_sum += num
+        if len(freq) == k:
+            max_sum = cur_sum
+        for i in range(k, n):
+            add_num = nums[i]
+            rm_num = nums[i - k]
+            freq[add_num] += 1
+            freq[rm_num] -= 1
+            if freq[rm_num] == 0:
+                del freq[rm_num]
+            cur_sum = cur_sum + add_num - rm_num
+            if len(freq) == k:
+                max_sum = max(max_sum, cur_sum)
+        return max_sum
 
 
 if __name__ == "__main__":
     nums = [1, 5, 4, 2, 9, 9, 9]
     k = 3
     ans = 15
+    solution = Solution()
+    ret = solution.maximumSubarraySum(nums, k)
+    print(ret, "==" if ret == ans else "!=", ans)
+
+    nums = [4, 4, 4]
+    k = 3
+    ans = 0
+    solution = Solution()
+    ret = solution.maximumSubarraySum(nums, k)
+    print(ret, "==" if ret == ans else "!=", ans)
+
+    nums = [1, 1, 1, 7, 8, 9]
+    k = 3
+    ans = 24
     solution = Solution()
     ret = solution.maximumSubarraySum(nums, k)
     print(ret, "==" if ret == ans else "!=", ans)
