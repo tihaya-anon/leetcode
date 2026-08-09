@@ -20,7 +20,7 @@ The path must not end with a slash '/', unless it is the root directory.
 The path must not have any single or double periods ('.' and '..') used to denote current or parent directories.
 Return the simplified canonical path.
 
- 
+
 
 Example 1:
 
@@ -78,15 +78,15 @@ class Solution:
     def simplifyPath(self, path: str) -> str:
         stack = []
 
-        for part in path.split("/"):
-            if part in ("", "."):
+        paths = path.split("/")
+        for item in paths:
+            if item == "" or item == ".":
                 continue
-            if part == "..":
+            if item == "..":
                 if stack:
                     stack.pop()
                 continue
-            stack.append(part)
-
+            stack.append(item)
         return "/" + "/".join(stack)
 
 
