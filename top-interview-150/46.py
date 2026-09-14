@@ -5,21 +5,24 @@ class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         N = len(nums)
         ret = []
-        visit = [0 for _ in nums]
+        visited = [False for _ in nums]
 
-        def dfs(i, path):
-            if i == N:
-                ret.append(path)
+        def dfs(path: List[int]):
+            if len(path) == N:
+                ret.append(path.copy())
                 return
-            for idx in range(N):
-                if visit[idx]:
+            for i in range(N):
+                if visited[i]:
                     continue
-                visit[idx] = 1
-                dfs(i + 1, path + [nums[idx]])
-                visit[idx] = 0
+                path.append(nums[i])
+                visited[i] = True
+                dfs(path)
+                visited[i] = False
+                path.pop()
 
-        dfs(0, [])
+        dfs([])
+
         return ret
 
 
-print(Solution().permute([2]))
+print(Solution().permute([1, 2, 3]))

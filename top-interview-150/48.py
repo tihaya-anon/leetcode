@@ -8,18 +8,20 @@ class Solution:
         """
         n = len(matrix)
 
+        def swap(point_a, point_b):
+            x_a, y_a = point_a
+            x_b, y_b = point_b
+            matrix[x_a][y_a], matrix[x_b][y_b] = matrix[x_b][y_b], matrix[x_a][y_a]
+
         def transpose():
             for i in range(n):
                 for j in range(i + 1, n):
-                    matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+                    swap((i, j), (j, i))
 
         def flip_x():
             for i in range(n):
                 for j in range(n // 2):
-                    matrix[i][j], matrix[i][n - 1 - j] = (
-                        matrix[i][n - 1 - j],
-                        matrix[i][j],
-                    )
+                    swap((i, j), (i, n - 1 - j))
 
         transpose()
         flip_x()
@@ -48,4 +50,5 @@ def pp(mat):
 mat_33 = get_mat(3, 3)
 pp(mat_33)
 Solution().rotate(mat_33)
+print()
 pp(mat_33)
